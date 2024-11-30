@@ -11,33 +11,22 @@ function App() {
 }
 
 function Counter() {
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
 
-  console.log("counter");
+  useEffect(() => {
+    // Start an interval that updates the count every second
+    const interval = setInterval(() => {
+      setCount((prevCount) => prevCount + 1); // Use functional update to ensure the latest value
+    }, 1000);
 
-  useEffect(function(){
-    setInterval(function(){
-      setCount(count => count +1 );
-    },1000)
-  },[]);
-
-
-  const increment = () => setCount(count + 1);
-  const decrement = () => setCount(count - 1);
-  const reset = () => setCount(0);
+    // Cleanup: clear the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, []); // Empty dependency array ensures this runs only once on mount
 
   return (
     <div className="counter">
       <h2 className="counter-header">Counter</h2>
       <p className="count">Count: {count}</p>
-    
-      
-
-      <div>
-        <button onClick={increment} className="button">Increment</button>
-        <button onClick={decrement} className="button">Decrement</button>
-        <button onClick={reset} className="button reset-button">Reset</button>
-      </div>
     </div>
   );
 }
