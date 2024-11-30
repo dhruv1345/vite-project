@@ -1,35 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import "./App.css"; // Import the CSS file
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="app">
+      <h1 className="header">React Counter</h1>
+      <Counter />
+    </div>
+  );
 }
 
-export default App
+function Counter() {
+  const [count, setCount] = useState(1);
+
+  const increment = () => setCount(count + 1);
+  const decrement = () => setCount(count - 1);
+  const reset = () => setCount(0);
+
+  return (
+    <div className="counter">
+      <h2 className="counter-header">Counter</h2>
+      <p className="count">Count: {count}</p>
+      <div>
+        <button onClick={increment} className="button">Increment</button>
+        <button onClick={decrement} className="button">Decrement</button>
+        <button onClick={reset} className="button reset-button">Reset</button>
+      </div>
+    </div>
+  );
+}
+
+export default App;
