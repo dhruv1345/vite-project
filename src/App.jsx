@@ -2,10 +2,28 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
+  const [conditionalRendering, setConditionalRendering] = useState(true);
+
+  useEffect(() => {
+    // Toggle `conditionalRendering` every 2 seconds
+    const interval = setInterval(() => {
+      setConditionalRendering((prev) => !prev);
+    }, 2000);
+
+    // Cleanup: clear the interval on component unmount
+    return () => clearInterval(interval);
+  }, []); // Run this effect once on mount
+
   return (
     <div className="app">
-      <h1 className="header">React Counter</h1>
-      <Counter />
+      {conditionalRendering ? (
+        <div>
+          <h1 className="header">React Counter</h1>
+          <Counter />
+        </div>
+      ) : (
+        <h1 className="header">Component Hidden</h1>
+      )}
     </div>
   );
 }
