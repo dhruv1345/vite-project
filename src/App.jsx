@@ -3,6 +3,7 @@ import "./App.css";
 
 function App() {
   const [conditionalRendering, setConditionalRendering] = useState(true);
+  const [count, setCount] = useState(0); // Move count state here
 
   useEffect(() => {
     // Toggle `conditionalRendering` every 2 seconds
@@ -14,12 +15,24 @@ function App() {
     return () => clearInterval(interval);
   }, []); // Run this effect once on mount
 
+  useEffect(() => {
+    // Increment the counter only when `conditionalRendering` is true
+    if (conditionalRendering) {
+      const interval = setInterval(() => {
+        setCount((prevCount) => prevCount + 1);
+      }, 1000);
+
+      // Cleanup the interval when `conditionalRendering` turns false
+      return () => clearInterval(interval);
+    }
+  }, [conditionalRendering]); // Runs when `conditionalRendering` changes
+
   return (
     <div className="app">
       {conditionalRendering ? (
         <div>
           <h1 className="header">React Counter</h1>
-          <Counter />
+          <Counter count={count} />
         </div>
       ) : (
         <h1 className="header">Component Hidden</h1>
@@ -28,19 +41,7 @@ function App() {
   );
 }
 
-function Counter() {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    // Start an interval that updates the count every second
-    const interval = setInterval(() => {
-      setCount((prevCount) => prevCount + 1); // Use functional update to ensure the latest value
-    }, 1000);
-
-    // Cleanup: clear the interval when the component unmounts
-    return () => clearInterval(interval);
-  }, []); // Empty dependency array ensures this runs only once on mount
-
+function Counter({ count }) {
   return (
     <div className="counter">
       <h2 className="counter-header">Counter</h2>
